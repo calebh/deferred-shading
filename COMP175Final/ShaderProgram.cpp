@@ -51,27 +51,28 @@ void ShaderProgram::use() {
 	glUseProgram(programID);
 }
 
-/*
-static void checkGLError(const char *file, int line) {
-	GLenum err = glGetError();
-	if (err != GL_NO_ERROR) {
-		fprintf(stderr, "OpenGL Error at %s:%d: %s\n", file, line, gluErrorString(err));
+void ShaderProgram::vertexAttribPointer(std::string name, GLint size, GLenum type, GLsizei stride, const GLvoid* data, bool normalize) {
+	GLint location;
+	auto iter = attribMap.find(name);
+	if (iter == attribMap.end()) {
+		location = glGetAttribLocation(programID, name.c_str());
+		attribMap[name] = location;
+	} else {
+		location = attribMap[name];
 	}
-}
-*/
-
-void ShaderProgram::vertexAttribPointer(const char* name, GLint size, GLenum type, GLsizei stride, const GLvoid* data, bool normalize) {
-	GLint location = glGetAttribLocation(programID, name);
 	glEnableVertexAttribArray(location);
 	glVertexAttribPointer(location, size, type, normalize, stride, data);
 }
 
-GLuint ShaderProgram::getUniformLocation(const char* name) {
-	GLint loc = glGetUniformLocation(programID, name);
-	if (loc == -1) {
-		std::cerr << "Uniform \"" << name << "\" not found in Program";
+GLuint ShaderProgram::getUniformLocation(std::string name) {
+	auto iter = uniformMap.find(name);
+	if (iter == uniformMap.end()) {
+		GLint loc = glGetUniformLocation(programID, name.c_str());
+		uniformMap[name] = loc;
+		return loc;
+	} else {
+		return iter->second;
 	}
-	return loc;
 }
 
 void ShaderProgram::setUniform1f(const char* varname, float v0) { glUniform1f(getUniformLocation(varname), v0); }

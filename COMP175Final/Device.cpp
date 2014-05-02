@@ -10,7 +10,7 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 	}
 }
 
-Device::Device(int initialWidth, int initialHeight) :
+Device::Device(int initialWidth, int initialHeight, bool fullscreen) :
 	width(initialWidth),
 	height(initialHeight)
 {
@@ -18,7 +18,13 @@ Device::Device(int initialWidth, int initialHeight) :
 	if (!glfwInit()) {
 		exit(EXIT_FAILURE);
 	}
-	window = glfwCreateWindow(width, height, "Deferred Lighting", NULL, NULL);
+	GLFWmonitor* monitor;
+	if (fullscreen) {
+		monitor = glfwGetPrimaryMonitor();
+	} else {
+		monitor = NULL;
+	}
+	window = glfwCreateWindow(width, height, "Deferred Lighting", monitor, NULL);
 	if (!window) {
 		glfwTerminate();
 		exit(EXIT_FAILURE);

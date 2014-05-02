@@ -13,7 +13,7 @@ public:
 	~ShaderProgram();
 	void attachShader(Shader* sh);
 	void bindAttrib(std::string name, GLuint index);
-	void ShaderProgram::vertexAttribPointer(const char* name, GLint size, GLenum type, GLsizei stride, const GLvoid* data, bool normalize);
+	void ShaderProgram::vertexAttribPointer(std::string name, GLint size, GLenum type, GLsizei stride, const GLvoid* data, bool normalize);
 	void link();
 	GLuint getProgramID();
 	void use();
@@ -55,6 +55,10 @@ private:
 	GLuint programID;
 	std::vector<Shader*> shaders;
 	bool linked;
-	GLuint getUniformLocation(const char* name);
+	//GLuint getUniformLocation(const char* name);
+	GLuint getUniformLocation(std::string name);
+
+	std::map<std::string, GLuint> uniformMap;
+	std::map<std::string, GLuint> attribMap;
 };
 

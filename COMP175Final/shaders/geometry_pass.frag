@@ -2,7 +2,7 @@
 
 smooth in vec3 worldPos;
 smooth in vec3 diffuseColor;
-in vec3 normalWorld;
+smooth in vec3 normalWorld;
 
 layout (location = 0) out vec3 worldPosOut;
 layout (location = 1) out vec3 diffuseOut;

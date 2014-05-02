@@ -11,11 +11,15 @@
 #include <glm/mat4x4.hpp>
 #include <glm/vec4.hpp>
 
-int main(void) {
-	int width = 640;
-	int height = 480;
+float randFloat() {
+	return rand() / ((float)RAND_MAX);
+}
 
-	Device device(width, height);
+int main(void) {
+	int width = 1366;
+	int height = 768;
+
+	Device device(width, height, true);
 	CameraNode camera(width, height);
 
 	camera.getTransform().setTranslation(20.0f, 20.0f, 20.0f);
@@ -56,22 +60,75 @@ int main(void) {
 	manager.setDirLightProgram(&dirLightProgram);
 	manager.setStencilProgram(&stencilProgram);
 
-	LightNode light(50.0f, 1.0f, 0.0f, 0.0f);
-	light.getTransform().setTranslation(-5.0f, -5.0f, -5.0f);
+	//LightNode light(100.0f, 1.0f, 0.0f, 0.0f);
+	//light.getTransform().setTranslation(-5.0f, -5.0f, -5.0f);
+
+	//LightNode light2(100.0f, 0.0f, 0.0f, 1.0f);
+	//light.getTransform().setTranslation(5.0f, 5.0f, 5.0f);
 
 	manager.addNode(&camera);
-	manager.addNode(&light);
+	//manager.addNode(&light);
+	//manager.addNode(&light2);
 
-	Mesh helicoptor("models/hheli.obj");
-	ModelNode mn;
-	mn.getTransform().setScale(0.05f, 0.05f, 0.05f);
-	mn.setMesh(&helicoptor);
+	Mesh cube("models/cube.obj");
+	ModelNode base;
+	base.setMesh(&cube);
+	base.getTransform().setScale(100.0f, 0.25f, 100.0f);
+	manager.addNode(&base);
 
-	manager.addNode(&mn);
+	Mesh helicoptor("models/jeep.obj");
 
-	float s = 0.0f;
+	//int range = 90;
+	int range = 60;
+
+	std::vector<LightNode*> allLights;
+
+	for (int x = -range; x <= range; x += 20) {
+		for (int z = -range; z <= range; z += 20) {
+			float xf = (float)x;
+			float zf = (float)z;
+
+			// WARNING WARNING MEMORY LEAK
+			ModelNode* mn = new ModelNode();
+			LightNode* light = new LightNode(40.0f, randFloat(), randFloat(), randFloat());
+			allLights.push_back(light);
+			light->getTransform().setTranslation(xf - 1.0f, 7.0f, zf);
+			//light->getTransform().setTranslation(xf + 5.0f, 0.5f, zf + 5.0f);
+			//light->getTransform().setTranslation(xf + (randFloat() - 0.5f) * 3.0f, randFloat() * 2.0f + 7.0f, zf + (randFloat() - 0.5f) * 3.0f);
+
+			manager.addNode(light);
+
+			mn->getTransform().setScale(0.025f, 0.025f, 0.025f);
+			mn->getTransform().setTranslation(xf, 0.0f, zf);
+			mn->setMesh(&helicoptor);
+			manager.addNode(mn);
+		}
+	}
+
+	bool autoDemo = false;
+
+	int prevKeyState = GLFW_RELEASE;
+
+	int t = 0;
 	while (device.run()) {
-		mn.getTransform().setRotation(sinf(s) * 3.14159f, 0.0f, 0.0f);
+		int keyState = glfwGetKey(device.getWindow(), GLFW_KEY_T);
+		if (keyState == GLFW_RELEASE && prevKeyState == GLFW_PRESS) {
+			autoDemo = !autoDemo;
+		}
+		prevKeyState = keyState;
+
+		if (t > 600 && t < 900) {
+			manager.setDebugGBuffer(true);
+		} else if (t >= 900) {
+			manager.setDebugGBuffer(false);
+			t = 0;
+		}
+
+		if (t == 300) {
+			for (LightNode* n : allLights) {
+				n->setRGB(randFloat(), randFloat(), randFloat());
+			}
+		}
 
 		//camera.getTransform().setTranslation(200.0f, 200.0f, 200.0f);
 		if (glfwGetKey(device.getWindow(), GLFW_KEY_W)) {
@@ -81,14 +138,13 @@ int main(void) {
 		}
 
 		glm::vec3 horizontal = glm::normalize(glm::cross(camera.getUp(), camera.getLookVector()));
-		if (glfwGetKey(device.getWindow(), GLFW_KEY_A)) {
+		if (glfwGetKey(device.getWindow(), GLFW_KEY_A) || autoDemo) {
 			camera.getTransform().setTranslation(camera.getTransform().getTranslation() + horizontal);
 		} else if (glfwGetKey(device.getWindow(), GLFW_KEY_D)) {
 			camera.getTransform().setTranslation(camera.getTransform().getTranslation() + horizontal * -1.0f);
 		}
 
-		s += 0.001f;
-
+		t++;
 		manager.drawAll();
 		device.endScene();
 	}

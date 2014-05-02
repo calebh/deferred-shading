@@ -21,6 +21,12 @@ void LightNode::setMesh(Mesh* m) {
 	mesh = m;
 }
 
+void LightNode::setRGB(float rr, float gg, float bb) {
+	r = rr;
+	g = gg;
+	b = bb;
+}
+
 void LightNode::pointLightPass(SceneManager* manager) {
 	CameraNode* camera = manager->getCameraNode();
 	ShaderProgram* shaderProgram = manager->getPointLightProgram();

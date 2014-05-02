@@ -9,7 +9,7 @@ uniform mat3 normalMatrix;
 
 smooth out vec3 worldPos;
 smooth out vec3 diffuseColor;
-out vec3 normalWorld;
+smooth out vec3 normalWorld;
 
 void main() {
 	gl_Position = mvp * position;

@@ -15,6 +15,7 @@ public:
 	virtual void pointLightPass(SceneManager* manager);
 	void stencilPass(SceneManager* manager);
 	void setMesh(Mesh* m);
+	void setRGB(float rr, float gg, float bb);
 private:
 	Mesh* mesh;
 	GLfloat intensity;

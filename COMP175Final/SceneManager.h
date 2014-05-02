@@ -33,6 +33,7 @@ public:
 	void addNode(ModelNode* node);
 	void addNode(LightNode* node);
 	void drawAll();
+	void setDebugGBuffer(bool debug);
 private:
 	std::vector<ModelNode*> modelNodes;
 	std::vector<LightNode*> lightNodes;
@@ -43,9 +44,10 @@ private:
 	ShaderProgram* dirLightProgram;
 	ShaderProgram* stencilProgram;
 	Mesh sphere;
-	Mesh quad;
 	float diffuseConstant;
 	float ambientConstant;
+	float directionalIntensity;
+	bool debugGBuffer;
 	void geometryPass();
 	void debugPass();
 	void stencilPass(LightNode* light);

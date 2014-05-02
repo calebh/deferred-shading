@@ -10,7 +10,7 @@
 class Device
 {
 public:
-	Device(int initialWidth, int initialHeight);
+	Device(int initialWidth, int initialHeight, bool fullscreen);
 	~Device();
 	GLFWwindow* getWindow();
 	bool run();
