@@ -21,7 +21,7 @@ void LightNode::setMesh(Mesh* m) {
 	mesh = m;
 }
 
-void LightNode::onLoop(SceneManager* manager) {
+void LightNode::pointLightPass(SceneManager* manager) {
 	CameraNode* camera = manager->getCameraNode();
 	ShaderProgram* shaderProgram = manager->getPointLightProgram();
 	
@@ -31,5 +31,14 @@ void LightNode::onLoop(SceneManager* manager) {
 	glm::vec3& lightPos = getTransform().getTranslation();
 	shaderProgram->setUniform3f("lightPos", lightPos.x, lightPos.y, lightPos.z);
 	shaderProgram->setUniform3f("lightColor", r, g, b);
-	mesh->draw(manager->getGeometryProgram(), false);
+	mesh->draw(shaderProgram, false);
+}
+
+void LightNode::stencilPass(SceneManager* manager) {
+	CameraNode* camera = manager->getCameraNode();
+	ShaderProgram* shaderProgram = manager->getStencilProgram();
+	glm::mat4 mvp = camera->getProjection() * camera->getView() * getTransform().getTransformation();
+
+	shaderProgram->setUniformMatrix4fv("mvp", 1, false, glm::value_ptr(mvp));
+	mesh->draw(shaderProgram, false);
 }

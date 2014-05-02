@@ -14,7 +14,3 @@ SceneNode::~SceneNode()
 Transform& SceneNode::getTransform() {
 	return transform;
 }
-
-void SceneNode::onLoop(SceneManager* manager) {
-
-}

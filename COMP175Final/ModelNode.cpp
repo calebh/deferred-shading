@@ -23,7 +23,7 @@ Mesh* ModelNode::getMesh() {
 	return mesh;
 }
 
-void ModelNode::onLoop(SceneManager* manager) {
+void ModelNode::geometryPass(SceneManager* manager) {
 	if (mesh != NULL) {
 		CameraNode* camera = manager->getCameraNode();
 		ShaderProgram* shaderProgram = manager->getGeometryProgram();
@@ -35,6 +35,6 @@ void ModelNode::onLoop(SceneManager* manager) {
 		shaderProgram->setUniformMatrix4fv("model", 1, false, glm::value_ptr(getTransform().getTransformation()));
 		shaderProgram->setUniformMatrix4fv("mvp", 1, false, glm::value_ptr(mvp));
 		shaderProgram->setUniformMatrix3fv("normalMatrix", 1, false, glm::value_ptr(normalMatrix));
-		mesh->draw(manager->getGeometryProgram(), true);
+		mesh->draw(shaderProgram, true);
 	}
 }

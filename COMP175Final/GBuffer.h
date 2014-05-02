@@ -22,13 +22,17 @@ public:
 	~GBuffer();
 
 	void init(int width, int height);
-	void bindForWriting();
-	void bindForReading();
+	void startFrame();
+	void bindForGeomPass();
+	void bindForStencilPass();
+	void bindForLightPass();
+	void bindForFinalPass();
 	void bindForBlitting();
 	void setReadBuffer(GBUFFER_TEXTURE_TYPE textureType);
 private:
 	GLuint fbo;
 	GLuint textures[GBUFFER_NUM_TEXTURES];
 	GLuint depthTexture;
+	GLuint finalTexture;
 };
 

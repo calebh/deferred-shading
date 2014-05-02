@@ -21,9 +21,12 @@ public:
 	Device* getDevice();
 	ShaderProgram* getGeometryProgram();
 	ShaderProgram* getPointLightProgram();
+	ShaderProgram* getStencilProgram();
+	ShaderProgram* getDirLightProgram();
 	void setGeometryProgram(ShaderProgram* prog);
 	void setPointLightProgram(ShaderProgram* prog);
 	void setDirLightProgram(ShaderProgram* prog);
+	void setStencilProgram(ShaderProgram* prog);
 	CameraNode* getCameraNode();
 	~SceneManager();
 	void addNode(CameraNode* node);
@@ -38,8 +41,15 @@ private:
 	ShaderProgram* geometryProgram;
 	ShaderProgram* pointLightProgram;
 	ShaderProgram* dirLightProgram;
+	ShaderProgram* stencilProgram;
 	Mesh sphere;
 	Mesh quad;
 	float diffuseConstant;
 	float ambientConstant;
+	void geometryPass();
+	void debugPass();
+	void stencilPass(LightNode* light);
+	void pointLightPass(LightNode* light);
+	void directionalLightPass();
+	void finalPass();
 };

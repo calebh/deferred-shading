@@ -25,7 +25,7 @@ void CameraNode::setFov(float f) {
 	fov = f;
 }
 
-void CameraNode::onLoop(SceneManager* manager) {
+void CameraNode::updateView() {
 	view = glm::lookAt(getTransform().getTranslation(), lookAt, up);
 }
 

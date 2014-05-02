@@ -13,7 +13,7 @@ class CameraNode : public SceneNode
 public:
 	CameraNode(int initialWidth, int initialHeight);
 	~CameraNode();
-	virtual void onLoop(SceneManager* manager);
+	void updateView();
 	void setFov(float f);
 	float getFov();
 	void setLookAt(glm::vec3 newLookAt);

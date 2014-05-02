@@ -11,7 +11,6 @@ public:
 	SceneNode();
 	~SceneNode();
 	Transform& getTransform();
-	virtual void onLoop(SceneManager* manager);
 
 private:
 	Transform transform;

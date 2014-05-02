@@ -13,7 +13,7 @@ public:
 	ModelNode();
 	ModelNode(Mesh* m);
 	~ModelNode();
-	virtual void onLoop(SceneManager* manager);
+	void geometryPass(SceneManager* manager);
 	Mesh* getMesh();
 	void setMesh(Mesh* m);
 private:

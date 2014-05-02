@@ -28,7 +28,7 @@ int main(void) {
 	geometryProgram.link();
 
 	ShaderProgram pointLightProgram;
-	Shader lightPassVertexShader("shaders/light_pass.vert", VERTEX);
+	Shader lightPassVertexShader("shaders/point_light_pass.vert", VERTEX);
 	Shader pointLightFragShader("shaders/point_light_pass.frag", FRAGMENT);
 	pointLightProgram.attachShader(&lightPassVertexShader);
 	pointLightProgram.attachShader(&pointLightFragShader);
@@ -43,10 +43,18 @@ int main(void) {
 	dirLightProgram.attachShader(&dirLightGeomShader);
 	dirLightProgram.link();
 
+	ShaderProgram stencilProgram;
+	Shader stencilVertexShader("shaders/stencil_pass.vert", VERTEX);
+	Shader stencilFragShader("shaders/stencil_pass.frag", FRAGMENT);
+	stencilProgram.attachShader(&stencilVertexShader);
+	stencilProgram.attachShader(&stencilFragShader);
+	stencilProgram.link();
+
 	SceneManager manager(&device);
 	manager.setGeometryProgram(&geometryProgram);
 	manager.setPointLightProgram(&pointLightProgram);
 	manager.setDirLightProgram(&dirLightProgram);
+	manager.setStencilProgram(&stencilProgram);
 
 	LightNode light(50.0f, 1.0f, 0.0f, 0.0f);
 	light.getTransform().setTranslation(-5.0f, -5.0f, -5.0f);

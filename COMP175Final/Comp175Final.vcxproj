@@ -109,10 +109,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\dir_light_pass.frag" />
+    <None Include="shaders\dir_light_pass.geom" />
+    <None Include="shaders\dir_light_pass.vert" />
     <None Include="shaders\geometry_pass.frag" />
     <None Include="shaders\geometry_pass.vert" />
-    <None Include="shaders\light_pass.vert" />
     <None Include="shaders\point_light_pass.frag" />
+    <None Include="shaders\point_light_pass.vert" />
+    <None Include="shaders\stencil_pass.frag" />
+    <None Include="shaders\stencil_pass.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

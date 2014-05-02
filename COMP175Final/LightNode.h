@@ -12,7 +12,8 @@ class LightNode :
 public:
 	LightNode(float initialIntensity, float ir, float ig, float ib);
 	~LightNode();
-	virtual void onLoop(SceneManager* manager);
+	virtual void pointLightPass(SceneManager* manager);
+	void stencilPass(SceneManager* manager);
 	void setMesh(Mesh* m);
 private:
 	Mesh* mesh;

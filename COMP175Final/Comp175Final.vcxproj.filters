@@ -103,10 +103,22 @@
     <None Include="shaders\point_light_pass.frag">
       <Filter>Source Files</Filter>
     </None>
-    <None Include="shaders\light_pass.vert">
+    <None Include="shaders\dir_light_pass.frag">
       <Filter>Source Files</Filter>
     </None>
-    <None Include="shaders\dir_light_pass.frag">
+    <None Include="shaders\dir_light_pass.geom">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="shaders\dir_light_pass.vert">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="shaders\point_light_pass.vert">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="shaders\stencil_pass.frag">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="shaders\stencil_pass.vert">
       <Filter>Source Files</Filter>
     </None>
   </ItemGroup>
