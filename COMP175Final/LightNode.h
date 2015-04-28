@@ -16,6 +16,7 @@ public:
 	void stencilPass(SceneManager* manager);
 	void setMesh(Mesh* m);
 	void setRGB(float rr, float gg, float bb);
+	glm::vec3 direction;
 private:
 	Mesh* mesh;
 	GLfloat intensity;

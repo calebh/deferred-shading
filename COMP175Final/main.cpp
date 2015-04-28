@@ -91,6 +91,7 @@ int main(void) {
 			// WARNING WARNING MEMORY LEAK
 			ModelNode* mn = new ModelNode();
 			LightNode* light = new LightNode(40.0f, randFloat(), randFloat(), randFloat());
+			light->direction = glm::vec3((randFloat() * 2.0f) - 1.0f, 0.0f, (randFloat() * 2.0f) - 1.0f);
 			allLights.push_back(light);
 			light->getTransform().setTranslation(xf - 1.0f, 7.0f, zf);
 			//light->getTransform().setTranslation(xf + 5.0f, 0.5f, zf + 5.0f);
@@ -117,17 +118,39 @@ int main(void) {
 		}
 		prevKeyState = keyState;
 
-		if (t > 600 && t < 900) {
-			manager.setDebugGBuffer(true);
-		} else if (t >= 900) {
-			manager.setDebugGBuffer(false);
-			t = 0;
+		if (autoDemo) {
+			if (t > 600 && t < 900) {
+				manager.setDebugGBuffer(true);
+			}
+			else if (t >= 900) {
+				manager.setDebugGBuffer(false);
+				t = 0;
+			}
 		}
 
 		if (t == 300) {
 			for (LightNode* n : allLights) {
 				n->setRGB(randFloat(), randFloat(), randFloat());
 			}
+		}
+
+		for (LightNode* n : allLights) {
+			glm::vec3 currPos = n->getTransform().getTranslation();
+			currPos += n->direction * 0.1f;
+			if (currPos.x > 70) {
+				currPos.x = -70;
+			}
+			if (currPos.x < -70) {
+				currPos.x = 70;
+			}
+
+			if (currPos.z > 70) {
+				currPos.z = -70;
+			}
+			if (currPos.z < -70) {
+				currPos.z = 70;
+			}
+			n->getTransform().setTranslation(currPos);
 		}
 
 		//camera.getTransform().setTranslation(200.0f, 200.0f, 200.0f);

@@ -96,7 +96,6 @@
     <ClInclude Include="CameraNode.h" />
     <ClInclude Include="Device.h" />
     <ClInclude Include="GBuffer.h" />
-    <ClInclude Include="geometry.h" />
     <ClInclude Include="LightNode.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="ModelNode.h" />
